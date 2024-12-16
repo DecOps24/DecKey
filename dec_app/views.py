@@ -50,7 +50,7 @@ def add_details(request):
         form = WorkDetailsForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('userpage')
+            return redirect('view_details')
     return render(request, 'add_details.html', {'form': form})
 
 
@@ -58,6 +58,19 @@ def add_details(request):
 def view_details(request):
     data = Work_Details.objects.all()
     return render(request, 'view_details.html', {'data': data})
+
+
+
+def details_edit(request,id):
+    data = Work_Details.objects.get(id=id)
+    form = WorkDetailsForm(instance = data)
+    if request.method == 'POST':
+        form1 = WorkDetailsForm(request.POST,instance =data)
+        if form1.is_valid():
+            form1.save()
+            return redirect('view_details')
+    return render(request, 'add_details_update.html', {'form': form})
+
 
 # add staff
 
@@ -68,7 +81,7 @@ def add_staff(request):
         form = Staff_form(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('userpage')
+            return redirect('view_staff')
     return render(request, 'add_staff.html', {'form': form})
 
 # view staff
@@ -78,6 +91,10 @@ def view_staff(request):
     return render(request, 'views_staff.html', {'data': data})
 
 
+def delete_staff(request,id):
+    data = Staff.objects.get(id=id)
+    data.delete()
+    return redirect("view_staff")
 
 
 

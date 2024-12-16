@@ -15,21 +15,25 @@
     <div class="card shadow-lg border-0 slide-in">
         <div class="card-header bg-primary text-white d-flex align-items-center justify-content-between">
             <h4 class="card-title mb-0">WORK DETAILS</h4>
-            <i class="bi bi-currency-rupee fs-4"></i>
+<!--            <i class="bi bi-currency-rupee fs-4"></i>-->
+            <a href="{% url 'add_details' %}" class="btn btn-success" role="button" aria-pressed="true">Add</a>
         </div>
+
         <div class="card-body p-4">
             <!-- Responsive Table -->
             <div class="table-responsive">
                 <table class="table table-hover table-bordered align-middle">
                     <thead class="table-light">
                         <tr>
+                            <th scope="col">SL_no</th>
                             <th scope="col">Work Number</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Party</th>
-                            <th scope="col">Reference</th>
-                            <th scope="col">Work</th>
-                            <th scope="col">Details</th>
+
+                            <th scope="col">Party name</th>
+                            <th scope="col">Nature of work</th>
                             <th scope="col">Assigned To</th>
+<!--                            <th scope="col">Reference</th>-->
+
+                            <th scope="col">Details</th>
                             <th scope="col">Status</th>
                             <th scope="col">Finished Date</th>
                             <th scope="col">Delivery Date</th>
@@ -37,32 +41,45 @@
                             <th scope="col">Fee Amount</th>
                             <th scope="col">DOR</th>
                             <th scope="col">Download</th>
+                            <th scope="col">Edit</th>
 
                         </tr>
                     </thead>
                     <tbody>
                         {% for i in data %}
                         <tr class="fade-in-row">
-                            <td>{{ i.work_number }}</td>
-                            <td>{{ i.Date }}</td>
-                            <td>{{ i.Party }}</td>
-                            <td>{{ i.Reference }}</td>
-                            <td>{{ i.Work }}</td>
+                            <td>{{forloop.counter}}</td>
+                            <td>CA00{{ i.id }}</td>
+                            <td>{{ i.Party_name }}</td>
+                            <td>{{ i.Nature_of_work }}</td>
+                            <td>{{ i.Assigned_to }}</td>
                             <td>{{ i.Details }}</td>
-                            <td>{{ i.Assign_to }}</td>
+
                             <td class="{% if i.Status == 'Important' %}highlight{% endif %}">
                                 {{ i.Status }}
                             </td>
                             <td>{{ i.Finished_date }}</td>
                             <td>{{ i.Delivery_Date }}</td>
-                            <td>{{ i.Bill_Amount }}</td>
-                            <td>{{ i.Fee_amount }}</td>
+                             <td>{{ i.Bill_Amount }}</td>
+                             <td>{{ i.Fee_amount }}</td>
                             <td>{{ i.DOR }}</td>
+
+
+
                             <td>
                             <a href="{% url 'download_row_pdf' i.id %}" class="btn btn-success btn-sm">
                                 <i class="bi bi-download"></i> Download
                             </a>
                         </td>
+
+                              <td>
+                            <a href="{% url 'details_edit' i.id %}" class="btn btn-success btn-sm">
+                                <i class="bi bi-eye"></i> view
+                            </a>
+                        </td>
+
+
+
                         </tr>
                         {% endfor %}
                     </tbody>

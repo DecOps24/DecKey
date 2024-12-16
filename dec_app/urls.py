@@ -20,6 +20,7 @@ urlpatterns = [
 
     # view staff
     path("view_staff",views.view_staff,name="view_staff"),
+    path("delete_staff/<int:id>/",views.delete_staff,name="delete_staff"),
 
     # party
 
@@ -29,6 +30,7 @@ urlpatterns = [
 
 
     path('view_details', views.view_details, name="view_details"),
+    path("details_edit/<int:id>/",views.details_edit,name="details_edit"),
     path('logout_view', views.logout_view, name="logout_view"),
     path('download-row-pdf/<int:id>/', views.download_bill, name='download_row_pdf')
 ]

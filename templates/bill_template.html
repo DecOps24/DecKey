@@ -157,45 +157,90 @@
 
         <div class="invoice-details">
             <h3>Invoice #{{ row.work_number }}</h3>
-            <p><strong>Date:</strong> {{ row.Date }}</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Work Number</th>
-                        <th>Date</th>
-                        <th>Party</th>
-                        <th>Reference</th>
-                        <th>Work</th>
-                        <th>Details</th>
-                        <th>Assign To</th>
-                        <th>Status</th>
-                        <th>Finished Date</th>
-                        <th>Delivery Date</th>
-                        <th>Bill Amount</th>
-                        <th>Fee Amount</th>
-                        <th>DOR</th>
+            <p><strong>Date:</strong> {{ Delivery_Date }}</p>
+<!--            <table>-->
+<!--                <thead>-->
+<!--                    <tr>-->
+<!--                        <th>Work Number</th>-->
+<!--                        <th>Date</th>-->
+<!--                        <th>Party</th>-->
+<!--                        <th>Reference</th>-->
+<!--                        <th>Work</th>-->
+<!--                        <th>Details</th>-->
+<!--                        <th>Assign To</th>-->
+<!--                        <th>Status</th>-->
+<!--                        <th>Finished Date</th>-->
+<!--                        <th>Delivery Date</th>-->
+<!--                        <th>Bill Amount</th>-->
+<!--                        <th>Fee Amount</th>-->
+<!--                        <th>DOR</th>-->
+<!--                    </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+<!--                    <tr>-->
+<!--                        <td>{{ row.work_number }}</td>-->
+<!--                        <td>{{ row.Date }}</td>-->
+<!--                        <td>{{ row.Party }}</td>-->
+<!--                        <td>{{ row.Reference }}</td>-->
+<!--                        <td>{{ row.Work }}</td>-->
+<!--                        <td>{{ row.Details }}</td>-->
+<!--                        <td>{{ row.Assign_to }}</td>-->
+<!--                        <td>{{ row.Status }}</td>-->
+<!--                        <td>{{ row.Finished_date }}</td>-->
+<!--                        <td>{{ row.Delivery_Date }}</td>-->
+<!--                        <td>${{ row.Bill_Amount }}</td>-->
+<!--                        <td>${{ row.Fee_amount }}</td>-->
+<!--                        <td>{{ row.DOR }}</td>-->
+
+
+
+            <table class="table table-hover table-bordered align-middle">
+                    <thead class="table-light">
+                        <tr>
+
+                            <th scope="col">Work Number</th>
+
+                            <th scope="col">Party name</th>
+                            <th scope="col">Nature of work</th>
+                            <th scope="col">Assigned To</th>
+
+
+                            <th scope="col">Details</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Finished Date</th>
+                            <th scope="col">Delivery Date</th>
+                            <th scope="col">Bill Amount</th>
+                            <th scope="col">Fee Amount</th>
+                            <th scope="col">DOR</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr class="fade-in-row">
+                             <td>{{ row.id }}</td>
+                            <td>{{ row.Party_name }}</td>
+                            <td>{{ row.Nature_of_work }}</td>
+                            <td>{{ row.Assigned_to }}</td>
+                            <td>{{ row.Details }}</td>
+
+                            <td class="{% if i.Status == 'Important' %}highlight{% endif %}">
+                                {{ row.Status }}
+                            </td>
+                            <td>{{ row.Finished_date }}</td>
+                            <td>{{ row.Delivery_Date }}</td>
+                             <td>{{ row.Bill_Amount }}</td>
+                             <td>{{ row.Fee_amount }}</td>
+                            <td>{{ row.DOR }}</td>
+
+
                     </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{{ row.work_number }}</td>
-                        <td>{{ row.Date }}</td>
-                        <td>{{ row.Party }}</td>
-                        <td>{{ row.Reference }}</td>
-                        <td>{{ row.Work }}</td>
-                        <td>{{ row.Details }}</td>
-                        <td>{{ row.Assign_to }}</td>
-                        <td>{{ row.Status }}</td>
-                        <td>{{ row.Finished_date }}</td>
-                        <td>{{ row.Delivery_Date }}</td>
-                        <td>${{ row.Bill_Amount }}</td>
-                        <td>${{ row.Fee_amount }}</td>
-                        <td>{{ row.DOR }}</td>
-                    </tr>
+
                 </tbody>
             </table>
 
-<!--            <a href="/download-pdf/{{ row.work_number }}" class="download-btn">Download PDF</a>-->
+
         </div>
 
         <div class="footer">

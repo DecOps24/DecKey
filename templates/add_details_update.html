@@ -8,7 +8,7 @@
             <div class="card border-0 shadow-lg" style="border-radius: 20px; overflow: hidden;">
                 <!-- Header Section -->
                 <div class="card-header bg-white py-4 text-center position-relative" style="border-bottom: 2px solid #f0f0f0;">
-                    <h3 class="fw-bold text-dark mb-0">Add work</h3>
+                    <h3 class="fw-bold text-dark mb-0">Edit work</h3>
 <!--                    <p class="text-muted mb-0" style="font-size: 0.9rem;">Provide the necessary information below</p>-->
                     <div class="header-decor position-absolute top-100 start-50 translate-middle">
                         <div style="width: 60px; height: 3px; background-color: #007bff; border-radius: 50px;"></div>
@@ -21,12 +21,12 @@
                         {% csrf_token %}
                         {{ form|crispy }}
                         <div class="d-flex justify-content-center mt-4">
-                            <button type="submit" class="btn btn-primary btn-lg px-5 py-2 rounded-pill shadow-sm submit-btn">
-                                Submit
+                            <button type="submit" class="btn btn-primary btn-lg px-5 py-2 rounded-pill shadow-sm submit-btn bi bi-pencil">
+                                Save changes
                             </button>
-                            <a href="#" class="btn btn-outline-secondary btn-lg px-5 py-2 rounded-pill ms-3 shadow-sm cancel-btn">
-                                Cancel
-                            </a>
+<!--                            <a href="#" class="btn btn-outline-secondary btn-lg px-5 py-2 rounded-pill ms-3 shadow-sm cancel-btn">-->
+<!--                                Cancel-->
+<!--                            </a>-->
                         </div>
                     </form>
                 </div>

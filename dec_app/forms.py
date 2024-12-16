@@ -22,6 +22,8 @@ class Party_form(forms.ModelForm):
         fields = '__all__'
 
 class WorkDetailsForm(forms.ModelForm):
+    Finished_date = forms.DateField(widget=DateInput,required=False)
+    Delivery_Date = forms.DateField(widget=DateInput,required=False)
     class Meta:
         model = Work_Details
         fields = ['Party_name','Nature_of_work', 'Details', 'Assigned_to', 'Status', 'Finished_date', 'Delivery_Date', 'Bill_Amount', 'Fee_amount', 'DOR']

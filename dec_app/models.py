@@ -14,6 +14,7 @@ class Staff(models.Model):
         return self.staff_name
 
 
+
 class Party(models.Model):
     Party_name = models.CharField(max_length=50)
     party_phone_number = models.CharField(max_length=10,default= 0000000000)
@@ -38,8 +39,8 @@ class Work_Details(models.Model):
     Assigned_to = models.ForeignKey(Staff,on_delete=models.CASCADE)
     Details = models.CharField(max_length=255)
     Status = models.CharField(max_length=255,choices=sts,default='Pending')
-    Finished_date = models.DateField()
-    Delivery_Date = models.DateField()
-    Bill_Amount = models.CharField(max_length=255)
-    Fee_amount = models.CharField(max_length=255)
+    Finished_date = models.DateField(null=True,blank=True)
+    Delivery_Date = models.DateField(null=True,blank=True)
+    Bill_Amount = models.CharField(max_length=255,null=True,blank=True)
+    Fee_amount = models.CharField(max_length=255,null=True,blank=True)
     DOR = models.DateField(default=date.today)
