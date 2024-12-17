@@ -13,9 +13,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-
-
-
+from .filters import WorkFilter
 # Create your views here.
 from .forms import Staff_form, WorkDetailsForm, Party_form
 from .models import Work_Details, Staff, Party
@@ -57,7 +55,9 @@ def add_details(request):
 @login_required(login_url='loginpage')
 def view_details(request):
     data = Work_Details.objects.all()
-    return render(request, 'view_details.html', {'data': data})
+    workfilter = WorkFilter(request.GET, queryset=data)
+    data = workfilter.qs
+    return render(request, 'view_details.html', {'data': data,'workfilter':workfilter})
 
 
 
