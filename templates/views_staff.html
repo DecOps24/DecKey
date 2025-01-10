@@ -46,7 +46,7 @@
                             <td>{{forloop.counter}}</td>
                             <td>{{ i.staff_name }}</td>
                             <td>{{ i.staff_id }}</td>
-                            <td><a href="{% 'delete_staff" class="btn btn-outline-danger" role="button" aria-pressed="true">Delete</a></td>
+                            <td><a href="{% url 'delete_staff' i.id %}" class="btn btn-outline-danger" role="button" aria-pressed="true">Delete</a></td>
 
 
                         </tr>
