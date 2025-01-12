@@ -1,0 +1,93 @@
+{% extends 'admintemp/index.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">SINGLE WORK DETAILS</h5>
+        <hr>
+        <div class="row">
+            <div class="col">
+                <p><strong>Work Number:</strong></p>
+            </div>
+            <div class="col">
+                <p><strong>Party Name:</strong></p>
+            </div>
+            <div class="col">
+                <p><strong>Nature of Work:</strong></p>
+            </div>
+            <div class="col">
+                <p><strong>Assigned To:</strong></p>
+            </div>
+        </div>
+
+        <!-- Row for Values -->
+        <div class="row">
+            <div class="col">
+                <p>work Number-1</p>
+            </div>
+            <div class="col">
+                <p>party-1</p>
+            </div>
+            <div class="col">
+                <p>Nature work-1</p>
+            </div>
+            <div class="col">
+                <p>Assign-1</p>
+            </div>
+        </div>
+
+        <!-- Row for Nature of Work and Assigned To -->
+        <div class="row mt-3">
+            <div class="col">
+                <p><strong>Status:</strong></p>
+            </div>
+            <div class="col">
+                <p><strong>Finished Date:</strong></p>
+            </div>
+            <div class="col">
+                <p><strong>Delivery Date:</strong></p>
+            </div>
+        </div>
+
+        <!-- Row for Values -->
+        <div class="row">
+            <div class="col">
+                <button type="button" class="btn btn-primary btn-sm">Pending</button>
+            </div>
+            <div class="col">
+                <p>12-01-2025</p>
+            </div>
+            <div class="col">
+                <p>15-01-2025</p>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col">
+                <p><strong>Bill Amount:</strong></p>
+            </div>
+            <div class="col">
+                <p><strong>Fee Amount:</strong></p>
+            </div>
+            <div class="col">
+                <p><strong>DOR:</strong></p>
+            </div>
+        </div>
+
+        <!-- Row for Values -->
+        <div class="row">
+            <div class="col">
+                <p>Rs.12000</p>
+            </div>
+            <div class="col">
+                <p>Rs.14000</p>
+            </div>
+            <div class="col">
+                <p>DOR</p>
+            </div>
+        </div>
+
+        
+    </div>
+</div>
+{% endblock %}

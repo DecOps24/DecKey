@@ -11,6 +11,9 @@ urlpatterns = [
     path('', views.homepage, name="homepage"),
     path('sign-in/', views.loginpage, name="sign-in"),
     path('userpage', views.userpage, name="userpage"),
+
+    path('view_details', views.view_details, name="view_details"),
+    path('single-detials', views.single_detials, name="single-detials"),
     path('add_details', views.add_details, name="add_details"),
 
 
@@ -29,7 +32,7 @@ urlpatterns = [
     path("view_party",views.view_party,name="view_party"),
 
 
-    path('view_details', views.view_details, name="view_details"),
+    
     path("details_edit/<int:id>/",views.details_edit,name="details_edit"),
     path('logout_view', views.logout_view, name="logout_view"),
     path('download-row-pdf/<int:id>/', views.download_bill, name='download_row_pdf')

@@ -46,7 +46,17 @@ def loginpage(request):
 
 @login_required(login_url='loginpage')
 def userpage(request):
-    return render(request, 'userpage.html')
+    return render(request, 'admintemp/index.html')
+
+@login_required(login_url='loginpage')
+def view_details(request):
+    data = Work_Details.objects.all()
+    workfilter = WorkFilter(request.GET, queryset=data)
+    data = workfilter.qs
+    return render(request, 'admintemp/details.html', {'data': data,'workfilter':workfilter})
+
+def single_detials(request):
+    return render(request, 'admintemp/single-details.html')
 
 
 @login_required(login_url='loginpage')
@@ -58,14 +68,6 @@ def add_details(request):
             form.save()
             return redirect('view_details')
     return render(request, 'add_details.html', {'form': form})
-
-
-@login_required(login_url='loginpage')
-def view_details(request):
-    data = Work_Details.objects.all()
-    workfilter = WorkFilter(request.GET, queryset=data)
-    data = workfilter.qs
-    return render(request, 'view_details.html', {'data': data,'workfilter':workfilter})
 
 
 
