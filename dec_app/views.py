@@ -1,3 +1,4 @@
+import logging
 from django.shortcuts import render
 
 # Create your views here.
@@ -19,21 +20,28 @@ from .forms import Staff_form, WorkDetailsForm, Party_form
 from .models import Work_Details, Staff, Party
 
 
+logger = logging.getLogger('django')
+
 def homepage(request):
     return render(request, 'index.html')
 
 
 def loginpage(request):
-    if request.method == 'POST':
-        username = request.POST.get('uname')
-        password = request.POST.get('pass')
-        user = authenticate(request, username=username, password=password)
-        if user is not None and user.is_staff:
-            login(request, user)
-            return redirect('userpage')
-        else:
-            messages.info(request, 'Invalid Credentials')
-    return render(request, 'Login.html')
+    try:
+        if request.method == 'POST':
+            username = request.POST.get('uname')
+            password = request.POST.get('pass')
+            user = authenticate(request, username=username, password=password)
+            if user is not None and user.is_staff:
+                login(request, user)
+                return redirect('userpage')
+            else:
+                messages.info(request, 'Invalid Credentials')
+    except Exception as e:
+        # Log the error with traceback information
+        logger.error(f"An error occurred in loginpage: {str(e)}", exc_info=True)
+        messages.error(request, f"An error occurred: {str(e)}")
+    return render(request, 'auth/authentication-login.html')
 
 
 @login_required(login_url='loginpage')

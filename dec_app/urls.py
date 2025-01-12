@@ -9,7 +9,7 @@ from dec_app import views
 urlpatterns = [
 
     path('', views.homepage, name="homepage"),
-    path('loginpage', views.loginpage, name="loginpage"),
+    path('sign-in/', views.loginpage, name="sign-in"),
     path('userpage', views.userpage, name="userpage"),
     path('add_details', views.add_details, name="add_details"),
 
