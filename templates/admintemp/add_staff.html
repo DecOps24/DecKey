@@ -1,0 +1,17 @@
+{% extends 'admintemp/index.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title mb-0">STAFF DETAILS FORM</h5>
+        <hr>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form|crispy }}
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

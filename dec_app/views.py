@@ -34,7 +34,7 @@ def loginpage(request):
             user = authenticate(request, username=username, password=password)
             if user is not None and user.is_staff:
                 login(request, user)
-                return redirect('userpage')
+                return redirect('dashboard')
             else:
                 messages.info(request, 'Invalid Credentials')
     except Exception as e:
@@ -50,10 +50,14 @@ def userpage(request):
 
 @login_required(login_url='loginpage')
 def view_details(request):
-    data = Work_Details.objects.all()
-    workfilter = WorkFilter(request.GET, queryset=data)
-    data = workfilter.qs
-    return render(request, 'admintemp/details.html', {'data': data,'workfilter':workfilter})
+    try:
+        data = Work_Details.objects.all()
+        workfilter = WorkFilter(request.GET, queryset=data)
+        data = workfilter.qs
+        return render(request, 'admintemp/details.html', {'data': data,'workfilter':workfilter})
+    except Exception as e:
+        logger.error(f"An error occurred while fetching work details: {e}")
+        return render(request, 'admintemp/error.html', {'message': 'Unable to fetch work details at this time.'})
 
 def single_detials(request):
     return render(request, 'admintemp/single-details.html')
@@ -67,7 +71,7 @@ def add_details(request):
         if form.is_valid():
             form.save()
             return redirect('view_details')
-    return render(request, 'add_details.html', {'form': form})
+    return render(request, 'admintemp/add_details.html', {'form': form})
 
 
 
@@ -92,13 +96,17 @@ def add_staff(request):
         if form.is_valid():
             form.save()
             return redirect('view_staff')
-    return render(request, 'add_staff.html', {'form': form})
+    return render(request, 'admintemp/add_staff.html', {'form': form})
 
 # view staff
-@login_required(login_url='loginpage')
 def view_staff(request):
-    data = Staff.objects.all()
-    return render(request, 'views_staff.html', {'data': data})
+    try:
+        # raise Exception("Testing error handling")
+        data = Staff.objects.all()
+        return render(request, 'admintemp/staffs.html', {'data': data})
+    except Exception as e:
+        logger.error(f"An error occurred while fetching staff data: {e}")
+        return render(request, 'admintemp/error.html', {'message': 'Unable to fetch staff data at this time.'})
 
 
 def delete_staff(request,id):
@@ -118,13 +126,17 @@ def add_party(request):
         if form.is_valid():
             form.save()
             return redirect('view_party')
-    return render(request, 'add_party.html', {'form': form})
+    return render(request, 'admintemp/add_party.html', {'form': form})
 
 # view staff
 @login_required(login_url='loginpage')
 def view_party(request):
-    data = Party.objects.all()
-    return render(request, 'views_party.html', {'data': data})
+    try:
+        data = Party.objects.all()
+        return render(request, 'admintemp/parties.html', {'data': data})
+    except Exception as e:
+        logger.error(f"An error occurred while fetching party data: {e}")
+        return render(request, 'admintemp/error.html', {'message': 'Unable to fetch staff data at this time.'})
 
 
 @login_required(login_url='loginpage')
