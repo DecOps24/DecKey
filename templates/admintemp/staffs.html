@@ -15,18 +15,20 @@
                 </tr>
             </thead>
             <tbody>
+                {% if data %}
+                    {% for i in data %}
+                    <tr>
+                      <th scope="row">{{ i.staff_id }}</th>
+                      <td>{{ i.staff_name }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
                 <tr>
-                  <th scope="row">Staff Id-1</th>
-                  <td>Name-1</td>
+                    <td colspan="2" class="text-center py-4">
+                        <strong>No data available</strong>
+                    </td>
                 </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Name-2</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Name-3</td>
-                </tr>
+                {% endif %}
             </tbody>
         </table>
     </div>

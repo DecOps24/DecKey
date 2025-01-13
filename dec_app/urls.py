@@ -12,7 +12,7 @@ urlpatterns = [
    
 
     
-    path('single-detials', views.single_detials, name="single-detials"),
+   
     path('add_details', views.add_details, name="add_details"),
 
 
@@ -25,14 +25,16 @@ urlpatterns = [
     path('dashboard/', views.userpage, name="dashboard"),
     path("staffs/",views.view_staff,name="staffs"),
     path("parties/",views.view_party,name="parties"),
+    path("party-form/",views.add_party,name="party-form"),
     path('work-details/', views.view_details, name="work-details"),
+    path('single-detials/<int:id>/', views.single_detials, name="single-detials"),
 
     path("delete_staff/<int:id>/",views.delete_staff,name="delete_staff"),
 
     # party
 
 
-    path("add_party",views.add_party,name="add_party"),
+    
     
 
 

@@ -1,6 +1,6 @@
 import logging
 from django.shortcuts import render
-
+from django.core.paginator import Paginator
 # Create your views here.
 
 
@@ -43,24 +43,32 @@ def loginpage(request):
         messages.error(request, f"An error occurred: {str(e)}")
     return render(request, 'auth/authentication-login.html')
 
-
-@login_required(login_url='loginpage')
 def userpage(request):
     return render(request, 'admintemp/index.html')
 
-@login_required(login_url='loginpage')
 def view_details(request):
     try:
-        data = Work_Details.objects.all()
+        data = Work_Details.objects.all().order_by('id')
         workfilter = WorkFilter(request.GET, queryset=data)
         data = workfilter.qs
-        return render(request, 'admintemp/details.html', {'data': data,'workfilter':workfilter})
+
+        # Pagination
+        paginator = Paginator(data, 10)  # Show 10 items per page
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        return render(request, 'admintemp/details.html', {'data': page_obj,'workfilter':workfilter})
     except Exception as e:
         logger.error(f"An error occurred while fetching work details: {e}")
         return render(request, 'admintemp/error.html', {'message': 'Unable to fetch work details at this time.'})
 
-def single_detials(request):
-    return render(request, 'admintemp/single-details.html')
+def single_detials(request,id):
+    try:
+        data = Work_Details.objects.get(id=id)
+        return render(request, 'admintemp/single-details.html',{'data':data})
+    except Exception as e:
+        logger.error(f"An error occurred while fetching work details by Id: {e}")
+        return render(request, 'admintemp/error.html', {'message': 'Unable to fetch work details by Id at this time.'})
 
 
 @login_required(login_url='loginpage')
@@ -118,25 +126,32 @@ def delete_staff(request,id):
 
 
 # ///////////   party   //////////////////////////////\/\/\/\/\/\/\/\/\/\
-@login_required(login_url='loginpage')
 def add_party(request):
     form = Party_form()
-    if request.method == 'POST':
-        form = Party_form(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('view_party')
-    return render(request, 'admintemp/add_party.html', {'form': form})
+    try:
+        if request.method == 'POST':
+            form = Party_form(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('parties')
+        return render(request, 'admintemp/add_party.html', {'form': form})
+    except Exception as e:
+        logger.error(f"An error occurred while adding party: {e}")
+        return render(request, 'admintemp/add_party.html', {'form': form,'error_message': 'An error occurred while adding the party. Please try again later.'})
 
 # view staff
 @login_required(login_url='loginpage')
 def view_party(request):
     try:
-        data = Party.objects.all()
-        return render(request, 'admintemp/parties.html', {'data': data})
+        data = Party.objects.all().order_by('id')
+        # Pagination
+        paginator = Paginator(data, 10)  # Show 10 items per page
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'admintemp/parties.html', {'data': page_obj})
     except Exception as e:
         logger.error(f"An error occurred while fetching party data: {e}")
-        return render(request, 'admintemp/error.html', {'message': 'Unable to fetch staff data at this time.'})
+        return render(request, 'admintemp/error.html', {'message': 'Unable to fetch party data at this time.'})
 
 
 @login_required(login_url='loginpage')

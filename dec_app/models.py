@@ -16,7 +16,7 @@ class Staff(models.Model):
 
 
 class Party(models.Model):
-    Party_name = models.CharField(max_length=50)
+    Party_name = models.CharField(max_length=50,unique=True)
     party_phone_number = models.CharField(max_length=10,default= 0000000000)
     party_address = models.CharField(max_length=100)
     referance = models.CharField(max_length=10,blank=True,null=True)

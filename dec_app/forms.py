@@ -20,6 +20,12 @@ class Party_form(forms.ModelForm):
     class Meta:
         model = Party
         fields = '__all__'
+    
+    def clean_party_name(self):
+        party_name = self.cleaned_data.get('party_name')
+        if Party.objects.filter(party_name=party_name).exists():
+            raise forms.ValidationError("This party name is already taken. Please choose a different name.")
+        return party_name
 
 class WorkDetailsForm(forms.ModelForm):
     Finished_date = forms.DateField(widget=DateInput,required=False)
