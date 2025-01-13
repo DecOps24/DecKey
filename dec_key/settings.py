@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     "dec_app",
     'crispy_forms',
     'crispy_bootstrap5',
-    "django_filters"
-
+    "django_filters",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -52,7 +52,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
 ]
+
+CORS_ALLOWED_ORIGINS = ['http://13.51.84.158']
 
 ROOT_URLCONF = 'dec_key.urls'
 
@@ -124,7 +127,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
+# STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR,'staticfiles')]
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
