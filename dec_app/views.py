@@ -22,9 +22,6 @@ from .models import Work_Details, Staff, Party
 
 logger = logging.getLogger('django')
 
-def homepage(request):
-    return render(request, 'index.html')
-
 
 def loginpage(request):
     try:
@@ -46,6 +43,53 @@ def loginpage(request):
 def userpage(request):
     return render(request, 'admintemp/index.html')
 
+def view_staff(request):
+    try:
+        # raise Exception("Testing error handling")
+        data = Staff.objects.all()
+        return render(request, 'admintemp/staffs.html', {'data': data})
+    except Exception as e:
+        logger.error(f"An error occurred while fetching staff data: {e}")
+        return render(request, 'admintemp/error.html', {'message': 'Unable to fetch staff data at this time.'})
+    
+def add_staff(request):
+    form = Staff_form()
+    try:
+        if request.method == 'POST':
+            form = Staff_form(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('staffs')
+        return render(request, 'admintemp/add_staff.html', {'form': form})
+    except Exception as e:
+        logger.error(f"An error occurred while adding staff: {e}")
+        return render(request, 'admintemp/add_staff.html', {'form': form,'error_message': 'An error occurred while adding the staff. Please try again later.'})
+
+def view_party(request):
+    try:
+        data = Party.objects.all().order_by('id')
+        # Pagination
+        paginator = Paginator(data, 10)  # Show 10 items per page
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'admintemp/parties.html', {'data': page_obj})
+    except Exception as e:
+        logger.error(f"An error occurred while fetching party data: {e}")
+        return render(request, 'admintemp/error.html', {'message': 'Unable to fetch party data at this time.'})
+    
+def add_party(request):
+    form = Party_form()
+    try:
+        if request.method == 'POST':
+            form = Party_form(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('parties')
+        return render(request, 'admintemp/add_party.html', {'form': form})
+    except Exception as e:
+        logger.error(f"An error occurred while adding party: {e}")
+        return render(request, 'admintemp/add_party.html', {'form': form,'error_message': 'An error occurred while adding the party. Please try again later.'})
+    
 def view_details(request):
     try:
         data = Work_Details.objects.all().order_by('id')
@@ -61,7 +105,7 @@ def view_details(request):
     except Exception as e:
         logger.error(f"An error occurred while fetching work details: {e}")
         return render(request, 'admintemp/error.html', {'message': 'Unable to fetch work details at this time.'})
-
+    
 def single_detials(request,id):
     try:
         data = Work_Details.objects.get(id=id)
@@ -70,51 +114,41 @@ def single_detials(request,id):
         logger.error(f"An error occurred while fetching work details by Id: {e}")
         return render(request, 'admintemp/error.html', {'message': 'Unable to fetch work details by Id at this time.'})
 
+def details_edit(request,id):
+    try:
+        data = Work_Details.objects.get(id=id)
+        form = WorkDetailsForm(instance = data)
+        if request.method == 'POST':
+            form1 = WorkDetailsForm(request.POST,instance =data)
+            if form1.is_valid():
+                form1.save()
+                return redirect('work-details')
+        return render(request, 'admintemp/edit_details.html', {'form': form})
+    except Exception as e:
+        logger.error(f"An error occurred while editing Work_Details with ID {id}: {e}")
+        return render(request, 'admintemp/error.html', {'message': 'An error occurred while processing your request.'})
 
-@login_required(login_url='loginpage')
 def add_details(request):
     form = WorkDetailsForm()
-    if request.method == 'POST':
-        form = WorkDetailsForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('view_details')
-    return render(request, 'admintemp/add_details.html', {'form': form})
+    try:
+        if request.method == 'POST':
+            form = WorkDetailsForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('work-details')
+        return render(request, 'admintemp/add_details.html', {'form': form})
+    except Exception as e:
+        logger.error(f"An error occurred while adding work detials: {e}")
+        return render(request, 'admintemp/add_details.html', {'form': form,'error_message': 'An error occurred while adding work detials. Please try again later.'})
+
+def logout_view(request):
+    logout(request)
+    return redirect('sign-in')
 
 
-
-def details_edit(request,id):
-    data = Work_Details.objects.get(id=id)
-    form = WorkDetailsForm(instance = data)
-    if request.method == 'POST':
-        form1 = WorkDetailsForm(request.POST,instance =data)
-        if form1.is_valid():
-            form1.save()
-            return redirect('view_details')
-    return render(request, 'add_details_update.html', {'form': form})
-
-
-# add staff
-
-@login_required(login_url='loginpage')
-def add_staff(request):
-    form = Staff_form()
-    if request.method == 'POST':
-        form = Staff_form(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('view_staff')
-    return render(request, 'admintemp/add_staff.html', {'form': form})
 
 # view staff
-def view_staff(request):
-    try:
-        # raise Exception("Testing error handling")
-        data = Staff.objects.all()
-        return render(request, 'admintemp/staffs.html', {'data': data})
-    except Exception as e:
-        logger.error(f"An error occurred while fetching staff data: {e}")
-        return render(request, 'admintemp/error.html', {'message': 'Unable to fetch staff data at this time.'})
+
 
 
 def delete_staff(request,id):
@@ -123,38 +157,6 @@ def delete_staff(request,id):
     return redirect("view_staff")
 
 
-
-
-# ///////////   party   //////////////////////////////\/\/\/\/\/\/\/\/\/\
-def add_party(request):
-    form = Party_form()
-    try:
-        if request.method == 'POST':
-            form = Party_form(request.POST)
-            if form.is_valid():
-                form.save()
-                return redirect('parties')
-        return render(request, 'admintemp/add_party.html', {'form': form})
-    except Exception as e:
-        logger.error(f"An error occurred while adding party: {e}")
-        return render(request, 'admintemp/add_party.html', {'form': form,'error_message': 'An error occurred while adding the party. Please try again later.'})
-
-# view staff
-@login_required(login_url='loginpage')
-def view_party(request):
-    try:
-        data = Party.objects.all().order_by('id')
-        # Pagination
-        paginator = Paginator(data, 10)  # Show 10 items per page
-        page_number = request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
-        return render(request, 'admintemp/parties.html', {'data': page_obj})
-    except Exception as e:
-        logger.error(f"An error occurred while fetching party data: {e}")
-        return render(request, 'admintemp/error.html', {'message': 'Unable to fetch party data at this time.'})
-
-
-@login_required(login_url='loginpage')
 def download_bill(request, id):
     try:
         row = Work_Details.objects.get(id=id)
@@ -162,7 +164,7 @@ def download_bill(request, id):
         return HttpResponse("Record not found", status=404)
 
     # Render HTML page as a string with context
-    html_content = render(request, 'bill_template.html', {'row': row})
+    html_content = render(request, 'admintemp/bill_template.html', {'row': row})
 
     # Convert the rendered HTML to PDF using xhtml2pdf
     pdf_output = BytesIO()
@@ -178,6 +180,3 @@ def download_bill(request, id):
     return response
 
 
-def logout_view(request):
-    logout(request)
-    return redirect('homepage')
